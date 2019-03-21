@@ -1,0 +1,25 @@
+{
+  "name": "lesson_01",
+  "version": "1.0.0",
+  "description": "first-steps",
+  "main": "index.js",
+  "scripts": {
+    "start-red": "cross-env NODE_ENV=red PORT=3000 nodemon node index --color red --bg",
+    "start-green": "cross-env NODE_ENV=green PORT=3001  nodemon node index --color green",
+    "start-blue": " cross-env NODE_ENV=blue PORT=3002 nodemon node index --console-beautify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "colors": "^1.3.3",
+    "commander": "^2.19.0",
+    "cross-env": "^5.2.0",
+    "is-plain-object": "^2.0.4",
+    "minimist": "^1.2.0",
+    "nodemon": "^1.18.10",
+    "ora": "^3.2.0",
+    "yargs": "^13.2.2"
+  }
+}
