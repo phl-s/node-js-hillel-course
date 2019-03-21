@@ -9,37 +9,33 @@ module.exports = () => {
   console._log = console.log;
   console.log = (...args) => {
     const toString = item => {
-      let result;
-
       if (item === null) {
-        result = 'null'.red;
+        return 'null'.red;
         //
       } else if (item === undefined) {
-        result = 'undefined'.red;
+        return 'undefined'.red;
         //
       } else if (item !== item && isNaN(item)) {
-        result = 'NaN'.red;
+        return 'NaN'.red;
         //
       } else if (typeof item === 'function') {
-        result = item.toString().gray;
+        return item.toString().gray;
         //
       } else if (typeof item === 'string') {
-        result = item.green;
+        return item.green;
         //
       } else if (typeof item === 'number') {
-        result = item.toString().magenta;
+        return item.toString().magenta;
         //
       } else if (isPlainObject(item)) {
-        result = JSON.stringify(item, null, ' ').cyan;
+        return JSON.stringify(item, null, ' ').cyan;
         //
       } else if (Array.isArray(item)) {
-        result = JSON.stringify(item).cyan;
+        return JSON.stringify(item).cyan;
         //
-      } else result = item;
-
-      return result + '\n';
+      } else return item;
     };
-    args = args.map(toString);
-    console._log('\n', ...args);
+
+    console._log(...args.map(toString));
   };
 };
