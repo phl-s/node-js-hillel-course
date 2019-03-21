@@ -34,7 +34,7 @@ class Student extends EventEmitter {
   }
 
   setVisit() {
-    if (isFullArray(this.lessons)) return;
+    if (isFullArray(this.lessons, 12)) return;
     this.lessons.push({ present: true, point: 0 });
     console.log('visits', this.lessons);
   }
