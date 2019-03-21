@@ -4,15 +4,19 @@
   "description": "first-steps",
   "main": "index.js",
   "scripts": {
-    "start-one": "cross-env NODE_ENV=one PORT=3000 node index --join, --reverse",
-    "start-two": "cross-env NODE_ENV=two PORT=3001 node index",
-    "start-three": "cross-env NODE_ENV=three PORT=3002 node index",
+    "start-red": "cross-env NODE_ENV=red PORT=3000 node index --color red --bg",
+    "start-green": "cross-env NODE_ENV=green PORT=3001 node index --color green",
+    "start-blue": "cross-env NODE_ENV=blue PORT=3002 node index --console-beautify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^2.4.2",
+    "colors": "^1.3.3",
+    "commander": "^2.19.0",
     "cross-env": "^5.2.0",
+    "is-plain-object": "^2.0.4",
     "minimist": "^1.2.0",
     "yargs": "^13.2.2"
   }
