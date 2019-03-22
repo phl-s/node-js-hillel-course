@@ -1,6 +1,8 @@
 
 # Created by https://www.gitignore.io/api/node,windows,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=node,windows,visualstudiocode
+#branch lesson_02
+lesson_01/
 
 *.txt
 ### Node ###
