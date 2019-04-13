@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --ignore 'index/*.txt' index",
+    "start_one": "nodemon --ignore 'index/*.txt' index -i=/fs-test -o=/LOGS.txt -d=0",
+    "start_two": "nodemon --ignore 'index/*.txt' index -i=/fs-test -o=/fs-test/LOGS.txt -d=2",
+    "start_three": "nodemon --ignore 'index/*.txt' index -i=fs-test -o=fs-test/1-dir/2-dir/LOGS.txt",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "minimist": "^1.2.0",
     "nodemon": "^1.18.10"
   }
 }

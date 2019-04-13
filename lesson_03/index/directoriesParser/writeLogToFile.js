@@ -1,14 +1,13 @@
 const fs = require('fs');
+const path = require('path');
 const { bindAll } = require('../helpers');
 
-const Formatter = require('./formatter');
-
-const formatter = new Formatter();
-
 class WriteLogsToFile {
-  constructor(outputStream, contentLength) {
-    this.outputStream = outputStream;
+  constructor($path, contentLength, formatter) {
+    this.$path = $path;
+    this.outputStream = null;
     this.contentLength = contentLength;
+    this.formatter = formatter;
 
     bindAll(
       this,
@@ -16,8 +15,15 @@ class WriteLogsToFile {
       this.onEndHandler,
       this.onErrorHandler,
       this.writeFileContent,
-      this.finishLogging
+      this.finishLogging,
+      this.createStream
     );
+
+    this.createStream($path);
+  }
+
+  createStream($path) {
+    this.outputStream = fs.createWriteStream($path, { flags: 'a' });
   }
 
   finishLogging() {
@@ -34,7 +40,7 @@ class WriteLogsToFile {
 
   onEndHandler(data) {
     if (data) {
-      this.outputStream.write(formatter.fileContent(data));
+      this.outputStream.write(this.formatter.fileContent(data));
       this.resolve();
     }
   }
@@ -43,11 +49,15 @@ class WriteLogsToFile {
     this.outputStream.write(name);
   }
 
-  writeFileContent(_path) {
+  writeFileContent($path) {
+    if ($path === this.$path) {
+      console.log($path, '\n', this.$path, '\n');
+      return;
+    }
     return new Promise((resolve, reject) => {
       this.resolve = resolve;
       this.reject = reject;
-      this.readable = fs.createReadStream(_path, {
+      this.readable = fs.createReadStream($path, {
         encoding: 'utf-8',
         highWaterMark: this.contentLength,
       });

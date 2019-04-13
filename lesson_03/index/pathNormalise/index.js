@@ -7,7 +7,6 @@ const pathNormalise = _path => {
   _path = path.normalize(_path);
   _path = path.join(root, _path);
 
-  console.log(_path, 'pathNormalise');
   return _path;
 };
 

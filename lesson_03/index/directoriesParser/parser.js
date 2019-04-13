@@ -16,7 +16,9 @@ class DirectoriesParser extends EventEmitter {
     this.events = eventNames;
     this.paused = false;
     this.pauseResolve = null;
+
     bindAll(this, this.init, this.pause, this.resume, this._setPausedState);
+
     this.init();
   }
 
@@ -27,7 +29,7 @@ class DirectoriesParser extends EventEmitter {
       }
     });
     this.on(this.events[ERROR], err => {
-      console.log(err);
+      console.log(err, 'error');
     });
   }
 
@@ -57,17 +59,25 @@ class DirectoriesParser extends EventEmitter {
 
     return new Promise(async (resolve, reject) => {
       try {
-        const fileDirents = await readdir($path, { withFileTypes: true });
-        if (fileDirents.length === 0) this.Emit('IS_EMPTY');
+        const dirents = await readdir($path, { withFileTypes: true });
 
-        for await (const dirent of fileDirents) {
+        if (dirents.length === 0) {
+          reject('isEmty directory');
+        }
+
+        for await (const dirent of dirents) {
           if (this.paused) await this._setPausedState();
 
           const currentPath = path.join($path, dirent.name);
 
           if (dirent.isDirectory()) {
             this.emit(this.events[IS_DIR], currentPath);
-            await this.parse(currentPath, depth + 1);
+
+            try {
+              await this.parse(currentPath, depth + 1);
+            } catch (e) {
+              this.emit(this.events[ERROR], e);
+            }
             //
           } else if (dirent.isFile()) {
             this.emit(this.events[IS_FILE], currentPath);

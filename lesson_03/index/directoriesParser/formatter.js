@@ -1,19 +1,18 @@
 const { bindAll } = require('../helpers');
 
 class Formatter {
-  constructor(symbols, defaultValue = '') {
+  constructor(symbols, defaultPrefix = '') {
     this.value = '';
-    this.defaultValue = defaultValue;
+    this.defaultPrefix = defaultPrefix;
     this.symbols = symbols;
-    this.sep = ' ';
+
     bindAll(this, this.increment, this.decrement, this.withPrefix);
   }
   withPrefix(str) {
-    if (this.value.length === 0) return this.defaultValue + this.sep + str + '\n';
-    return this.defaultValue + this.sep + this.value + this.sep + str + '\n';
+    return this.defaultPrefix + this.value + str + '\n';
   }
   fileContent(str) {
-    return `\n<--\n${str}\n-->\n`;
+    return `\n<--\n${str + '...'}\n-->\n\n`;
   }
   increment() {
     this.value += this.symbols;

@@ -1,3 +1,8 @@
-const parseDirectories = require('./directoriesParser');
+const { i, o, d } = require('minimist')(process.argv.slice(2));
+const pathNormalise = require('./pathNormalise');
+const parserInit = require('./directoriesParser');
 
-parseDirectories.parse('./index/fs-test');
+const inputPath = pathNormalise(i);
+const pareser = parserInit(o, d);
+
+pareser.parse(inputPath);
