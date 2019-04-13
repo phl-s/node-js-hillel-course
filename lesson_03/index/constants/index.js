@@ -5,6 +5,7 @@ const END = 'END';
 const PAUSE = 'PAUSE';
 const RESUME = 'RESUME';
 const ERROR = 'ERROR';
+const FINISH = 'FINISH';
 
 const FILE_READING = 'FILE_READING';
 const FILE_LOGGED = 'FILE_LOGGED';
@@ -19,6 +20,7 @@ const parserEvents = Object.freeze({
   PAUSE,
   RESUME,
   ERROR,
+  FINISH,
 });
 
 const loggerEvents = Object.freeze({

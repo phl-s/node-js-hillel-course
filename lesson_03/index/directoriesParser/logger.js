@@ -15,13 +15,20 @@ class FilesLogger extends EventEmitter {
     this.events = eventNames;
     this.logWriter = logWriter;
     this.formatter = formatter;
-    bindAll(this, this.logFile, this.logDir);
+    bindAll(this, this.logFile, this.logDir, this.complete);
 
     this.logFile = awaitPromisify(this.logFile);
   }
 
   emit(event, ...args) {
     super.emit(event, ...args);
+  }
+
+  complete() {
+    console.log('COMPLETE');
+    this.logWriter.finishLogging();
+
+    // this.resolve();
   }
 
   parsePath(_path) {

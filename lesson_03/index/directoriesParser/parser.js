@@ -7,7 +7,7 @@ const { bindAll } = require('../helpers');
 const readdir = promisify(fs.readdir);
 
 const { parserEvents } = require('../constants');
-const { IS_FILE, IS_DIR, START, END, ERROR, PAUSE, RESUME } = parserEvents;
+const { IS_FILE, IS_DIR, START, END, ERROR, PAUSE, RESUME, FINISH } = parserEvents;
 
 class DirectoriesParser extends EventEmitter {
   constructor(eventNames, depth = null) {
@@ -23,7 +23,7 @@ class DirectoriesParser extends EventEmitter {
   init() {
     this.on(this.events[END], depth => {
       if (depth === 0) {
-        console.log('FINISH');
+        this.emit(this.events[FINISH]);
       }
     });
     this.on(this.events[ERROR], err => {
@@ -53,9 +53,9 @@ class DirectoriesParser extends EventEmitter {
   async parse($path, depth = 0) {
     if (this.depth !== null && depth > this.depth) return;
 
-    return new Promise(async (resolve, reject) => {
-      this.emit(this.events[START]);
+    this.emit(this.events[START]);
 
+    return new Promise(async (resolve, reject) => {
       try {
         const fileDirents = await readdir($path, { withFileTypes: true });
         if (fileDirents.length === 0) this.Emit('IS_EMPTY');
@@ -67,7 +67,7 @@ class DirectoriesParser extends EventEmitter {
 
           if (dirent.isDirectory()) {
             this.emit(this.events[IS_DIR], currentPath);
-            await this.parse(currentPath, ++depth);
+            await this.parse(currentPath, depth + 1);
             //
           } else if (dirent.isFile()) {
             this.emit(this.events[IS_FILE], currentPath);
@@ -77,7 +77,6 @@ class DirectoriesParser extends EventEmitter {
         resolve();
         //
       } catch (e) {
-        console.log(e);
         this.emit(this.events[ERROR], e);
       }
     });

@@ -16,13 +16,11 @@ class WriteLogsToFile {
       this.onEndHandler,
       this.onErrorHandler,
       this.writeFileContent,
-      this.complete
+      this.finishLogging
     );
-
-    this.outputStream.on('finish', this.complete);
   }
 
-  complete() {
+  finishLogging() {
     this.outputStream.write('Complete');
   }
 
