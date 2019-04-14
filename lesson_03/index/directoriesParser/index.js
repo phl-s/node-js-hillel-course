@@ -1,10 +1,8 @@
 const pathNormalize = require('../pathNormalise');
 const DirectoriesParser = require('./parser');
 const Formatter = require('./formatter');
-const WriteLogsToFile = require('./writeLogToFile');
+const LogWriter = require('./LogWriter');
 const FilesLogger = require('./logger');
-
-const { awaitPromisify } = require('../helpers');
 
 const { parserEvents, loggerEvents } = require('../constants');
 const { IS_FILE, IS_DIR, START, END, FINISH } = parserEvents;
@@ -15,14 +13,14 @@ const parserInit = (outputPath, depth) => {
   outputPath = pathNormalize(outputPath);
 
   const formatter = new Formatter(' ', '*');
-  const writer = new WriteLogsToFile(outputPath, 100, formatter);
+  const writer = new LogWriter(outputPath, 100, formatter);
   const logger = new FilesLogger(writer, formatter, loggerEvents);
   const parser = new DirectoriesParser(parserEvents, depth);
 
   parser.on(START, formatter.increment);
   parser.on(END, formatter.decrement);
-  parser.on(IS_FILE, awaitPromisify(logger.logFile));
-  parser.on(IS_DIR, awaitPromisify(logger.logDir));
+  parser.on(IS_FILE, logger.logFile);
+  parser.on(IS_DIR, logger.logDir);
   parser.on(FINISH, logger.complete);
 
   logger.on(FILE_READING, parser.pause);

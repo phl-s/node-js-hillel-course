@@ -9,7 +9,7 @@ const FINISH = 'FINISH';
 
 const FILE_READING = 'FILE_READING';
 const FILE_LOGGED = 'FILE_LOGGED';
-const DIR_LOGGED = 'FILE_LOGGED';
+const DIR_LOGGED = 'DIR_LOGGED';
 const FILES_CONTENT_LOGGED = 'FILE_CONTENT_LOGGED';
 
 const parserEvents = Object.freeze({

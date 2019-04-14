@@ -9,10 +9,10 @@ class Formatter {
     bindAll(this, this.increment, this.decrement, this.withPrefix);
   }
   withPrefix(str) {
-    return this.defaultPrefix + this.value + str + '\n';
+    return this.defaultPrefix + this.value + str;
   }
   fileContent(str) {
-    return `\n<--\n${str + '...'}\n-->\n\n`;
+    return `\n<--\n${str + '...'}\n-->\n`;
   }
   increment() {
     this.value += this.symbols;

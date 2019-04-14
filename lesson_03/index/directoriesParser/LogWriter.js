@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { bindAll } = require('../helpers');
 
-class WriteLogsToFile {
+class LogWriter {
   constructor($path, contentLength, formatter) {
     this.$path = $path;
     this.outputStream = null;
@@ -27,6 +27,7 @@ class WriteLogsToFile {
   }
 
   finishLogging() {
+    console.log('Complete');
     this.outputStream.write('Complete');
   }
 
@@ -40,18 +41,19 @@ class WriteLogsToFile {
 
   onEndHandler(data) {
     if (data) {
-      this.outputStream.write(this.formatter.fileContent(data));
+      console.log(this.formatter.fileContent(data));
+      this.outputStream.write(this.formatter.fileContent(data) + '\n');
       this.resolve();
     }
   }
 
   writeFileName(name) {
-    this.outputStream.write(name);
+    console.log(name);
+    this.outputStream.write(name + '\n');
   }
 
   writeFileContent($path) {
     if ($path === this.$path) {
-      console.log($path, '\n', this.$path, '\n');
       return;
     }
     return new Promise((resolve, reject) => {
@@ -69,4 +71,4 @@ class WriteLogsToFile {
   }
 }
 
-module.exports = WriteLogsToFile;
+module.exports = LogWriter;

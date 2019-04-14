@@ -29,7 +29,7 @@ class DirectoriesParser extends EventEmitter {
       }
     });
     this.on(this.events[ERROR], err => {
-      console.log(err, 'error');
+      console.log(err);
     });
   }
 
@@ -60,10 +60,6 @@ class DirectoriesParser extends EventEmitter {
     return new Promise(async (resolve, reject) => {
       try {
         const dirents = await readdir($path, { withFileTypes: true });
-
-        if (dirents.length === 0) {
-          reject('isEmty directory');
-        }
 
         for await (const dirent of dirents) {
           if (this.paused) await this._setPausedState();
